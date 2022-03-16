@@ -1,0 +1,10 @@
+# Uploder
+別途データ集約用コードを使用して作成したアップローダー
+ライブラリに別途コードを追加することで使用できます。
+・ExcelDataAggregationGAS 
+・CsvDataAggregationGAS
+salesUploderのほうではCSV、matterのほうではExcelファイルのみをアップロードできるようにしています。
+
+GASではCSSの切り分けがすごく面倒なので直書き
+とりあえず使用できればよかったのでデザインとか諸々考えていません。
+見ずらかった部分だけCSSでボタンにしてます。
