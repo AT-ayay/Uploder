@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style type="text/css">
+    .button1 {
+      margin: 30px;
+      display: inline-block;
+      border-radius: 5%;
+      /* 角丸       */
+      font-size: 18pt;
+      /* 文字サイズ */
+      text-align: center;
+      /* 文字位置   */
+      cursor: pointer;
+      /* カーソル   */
+      padding: 12px 12px;
+      /* 余白       */
+      background: #ffff6b;
+      /* 背景色     */
+      color: #ffffff;
+      /* 文字色     */
+      line-height: 1em;
+      /* 1行の高さ  */
+      transition: .3s;
+      /* なめらか変化 */
+      box-shadow: 6px 6px 3px #000000;
+      /* 影の設定 */
+      border: 2px solid #000000;
+      /* 枠の指定 */
+    }
+    .button1:hover {
+      box-shadow: none;
+      /* カーソル時の影消去 */
+      color: #80c738;
+      /* 背景色     */
+      background: #ffffff;
+      /* 文字色     */
+    }
+
+    .button2 {
+      display: inline-block;
+      border-radius: 5%;
+      /* 角丸       */
+      font-size: 18pt;
+      /* 文字サイズ */
+      text-align: center;
+      /* 文字位置   */
+      cursor: pointer;
+      /* カーソル   */
+      padding: 12px 14px;
+      /* 余白       */
+      background: #7fffd4;
+      /* 背景色     */
+      color: #ffffff;
+      /* 文字色     */
+      line-height: 1em;
+      /* 1行の高さ  */
+      transition: .3s;
+      /* なめらか変化 */
+      box-shadow: 6px 6px 3px #000000;
+      /* 影の設定 */
+      border: 2px solid #000000;
+      /* 枠の指定 */
+    }
+    .button2:hover {
+      box-shadow: none;
+      /* カーソル時の影消去 */
+      color: #6666ff;
+      /* 背景色     */
+      background: #ffffff;
+      /* 文字色     */
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align:center;">
+    <div class="button1">
+      <a href="<?= getAppUrl() ?>?page=matterUploder">案件情報取り込み</a>
+    </div>
+    <br>
+    <div class="button2">
+      <a href="<?= getAppUrl() ?>?page=salesUploder">売上情報取り込み</a>
+    </div>
+  </div>
+  <div>
+</html>

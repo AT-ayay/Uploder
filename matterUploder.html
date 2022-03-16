@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <base target="_top">
+  <script>
+    function preventFormSubmit() {
+        var forms = document.querySelectorAll('form');
+        for (var i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+      /*最初はアップロードボタンを押せないようにしておく*/
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("upload").disabled = true;
+      }, false);
+      /*制限サイズ以内のファイルが選択されたらアップロードボタンを押せるようにする*/
+      function changeSubmitButton(e) {
+        const len=e.files.length;
+        const size=e.files[0].size;
+        //Excelの時のみアップロードボタンを押せるようにする
+        const uploadExcel = e.files[0]['type'];
+        const bool = uploadExcel.indexOf('vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        const maxSize=1024 * 1024 * 10;//10MB
+        const uploadButton=document.getElementById("upload");
+        if (len > 0 && size < maxSize && bool !== -1) {
+          uploadButton.disabled = false;
+        }
+        else{
+          uploadButton.disabled = true;
+        }
+      }
+      /*アップロードボタンが押されたらファイルをアップロード*/
+      function handleFormSubmit(formObject) {
+        document.getElementById("upload").disabled = true;
+        const div = document.getElementById('progress');
+        div.innerHTML='アップロード中...';
+        //アップロード成功した場合はupdateView()実行
+       google.script.run.withSuccessHandler(updateView)
+        .withFailureHandler(failureView)
+        .processForm(formObject);
+      }
+      /*アップロード完了画面に変える（動的）*/
+      function updateView() {
+       var div = document.getElementById('progress');
+       div.innerHTML = '<div><font color="red">アップロード完了しました。</font></div>';
+    
+      }
+      function failureView() {
+        var div = document.getElementById('progress');
+        div.innerHTML = '<div><font color="red">アップロードに失敗しました。<br>管理シートの変換元フォルダを確認して下さい。</font></div>';
+      }
+      //変換追加メソッド呼び出し
+      function conversionSubmit(){
+          let checkFlg = window.confirm('取り込みを実行しますがよろしいですか？');
+          if(checkFlg){
+        const div = document.getElementById('progress');
+        div.innerHTML='取り込み中...';
+        google.script.run.withSuccessHandler(conversionView)
+        .withFailureHandler(conversionFalseView)
+        .conversionExcel();
+          }
+      }
+      /*アップロード完了画面に変える（動的）*/
+      function conversionView() {
+       var div = document.getElementById('progress');
+       div.innerHTML = '<div><font color="red">取り込み完了しました。</font></div>';
+      }
+      function conversionFalseView() {
+        var div = document.getElementById('progress');
+        div.innerHTML = '<div><font color="red">取り込みに失敗しました。<br>管理シートの追加対象スプレットID、シート名を確認して下さい。</font></div>';
+      }
+  </script>
+</head>
+
+<body>
+  <div id="myform" style="text-align:center;">
+    〇案件情報取り込みアップローダー<br><br>
+    ファイルを選択してからアップロードしてください（10MBまで）<br><br>
+    <form onsubmit="handleFormSubmit(this)">
+      <input id="file" name="myFile" type="file" onchange="changeSubmitButton(this)" />
+      <input id="upload" type="submit" value="アップロード" />
+    </form>
+
+    <div id="progress"></div>
+    <br>
+    <br>
+    <a href="管理シートのURL"
+      target="_blank">管理シート</a><br><br>
+    <form onsubmit="conversionSubmit()">
+    <input type="submit" value="取り込み実行" />
+    </form>
+    <br><br><a href="<?= getAppUrl() ?>?page=menu">メニューに戻る</a>
+  </div>
+</body>
+
+</html>
